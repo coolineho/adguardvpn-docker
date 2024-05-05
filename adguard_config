@@ -7,6 +7,8 @@ adguardvpn-cli config set-system-dns off
 
 [[ -v ADGUARD_USERNAME ]] && [[ -v ADGUARD_PASSWORD ]] && adguardvpn-cli login -u "$ADGUARD_USERNAME" -p "$ADGUARD_PASSWORD"
 
-[[ -v ADGUARD_LOCATION ]] && adguardvpn-cli connect -l "$ADGUARD_LOCATION" || adguardvpn-cli connect -f
+if [[ "$ADGUARD_AUTOCONNECT" = "yes" ]]; then
+  [[ -v ADGUARD_LOCATION ]] && adguardvpn-cli connect -l "$ADGUARD_LOCATION" || adguardvpn-cli connect -f
+fi
 
 [[ "$KILLSWITCH" = "on" ]] && killswitch

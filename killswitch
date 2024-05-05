@@ -1,33 +1,38 @@
 #!/bin/bash
 
+if [[ "$KILLSWITCH" != "enabled" ]]; then
+  [[ "$1" = "status" ]] && echo "disabled by environment variable"
+  exit
+fi
+
 status_file="/var/tmp/killswitch_status.txt"
 ip_file="/var/tmp/killswitch_last_ip.txt"
 tstamp_file="/var/tmp/killswitch_last_tstamp.txt"
 
-[[ -e "$status_file" ]] && KILLSWITCH="$(head -1 $status_file)" || echo "$KILLSWITCH" > "$status_file"
+[[ -e "$status_file" ]] && killswitch="$(head -1 $status_file)" || echo "$KILLSWITCH" > "$status_file"
 
 if [[ "$1" = "status" ]]; then
-  if [[ "$KILLSWITCH" = "on" ]]; then
+  if [[ "$killswitch" = "enabled" ]]; then
     echo "killswitch is enabled."
-    echo -n "killswitch IP:"
+    echo -n "killswitch IP: "
     [[ -e "$ip_file" ]] && echo "$(cat $ip_file)" || echo "not created"
   else
     echo "killswitch is disabled."
   fi
   [[ -e "$tstamp_file" ]] && last_run="$(head -1 $tstamp_file)"
   echo -n "last run: "
-  [[ -v last_run ]] && echo "$(($(date +%s)-$last_run))" seconds ago. || echo "never."
+  [[ -v last_run ]] && echo "$(($(date +%s)-$last_run)) seconds ago." || echo "never."
   echo "current IP: $(curl -s http://ipinfo.io/ip)"
   exit
 fi
 
 if [[ "$1" = "enable" ]]; then
-  echo "on" > "$status_file"
+  echo "enabled" > "$status_file"
   exit
 fi
 
 if [[ "$1" = "disable" ]]; then
-  echo "off" > "$status_file"
+  echo "disabled" > "$status_file"
   exit
 fi
 
@@ -58,8 +63,8 @@ check_and_drop() {
 # Main loop that runs for about 60 seconds
 end=$((SECONDS+60))
 while [ "$SECONDS" -lt "$end" ]; do
-    KILLSWITCH="$(head -1 $status_file)"
-    [ "$KILLSWITCH" != "on" ] && continue
+    killswitch="$(head -1 $status_file)"
+    [ "$killswitch" != "enabled" ] && continue
     check_and_drop
     echo "$(date +%s)" > "$tstamp_file"
     sleep 4
