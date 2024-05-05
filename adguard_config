@@ -1,0 +1,12 @@
+#!/bin/bash
+
+adguardvpn-cli config set-no-routes off
+adguardvpn-cli config set-system-dns off
+
+[[ -v ADGUARD_SEND_REPORTS ]] && adguardvpn-cli config send-reports "$ADGUARD_SEND_REPORTS" || adguardvpn-cli config send-reports off
+
+[[ -v ADGUARD_USERNAME ]] && [[ -v ADGUARD_PASSWORD ]] && adguardvpn-cli login -u "$ADGUARD_USERNAME" -p "$ADGUARD_PASSWORD"
+
+[[ -v ADGUARD_LOCATION ]] && adguardvpn-cli connect -l "$ADGUARD_LOCATION" || adguardvpn-cli connect -f
+
+[[ "$KILLSWITCH" = "on" ]] && killswitch
