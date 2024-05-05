@@ -1,5 +1,11 @@
 # adguardvpn-docker
-[AdguardTeam/AdGuardVPNCLI](https://github.com/AdguardTeam/AdGuardVPNCLI) for Linux in a docker image including the torrent client transmission-daemon and a kill switch.
+[AdguardTeam/AdGuardVPNCLI](https://github.com/AdguardTeam/AdGuardVPNCLI) for Linux in a docker image including the torrent client transmission-daemon and a killswitch.
+
+## Objective
+Route all data traffic of an application, in this case [Transmission](https://transmissionbt.com/), through a VPN, while leaving the host's network settings untouched.
+
+Optionally includes a killswitch that monitors the public IP address of the container and drops the connection in case it changes.
+
 ## How to install
 ### 1. Install Docker
 For example by using the [official install script](https://get.docker.com).
