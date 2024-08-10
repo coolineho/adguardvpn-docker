@@ -11,7 +11,11 @@ services:
             - .env
         volumes:
             - transmission_config:/config
-            - ${DOWNLOADS_PATH}:/downloads
+            - /var/run/docker.sock:/var/run/docker.sock
+            - type: bind
+              source: '${DOWNLOADS_PATH}'
+              target: '/downloads'
         image: adguard-vpn
+        restart: unless-stopped
 volumes:
     transmission_config:
