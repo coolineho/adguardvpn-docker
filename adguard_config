@@ -46,9 +46,7 @@ fi
 VPN_IP=$(get_ip)
 write_var "VPN_IP" "$VPN_IP"
 
-if [[ "$HOST_IP" == "$VPN_IP" ]]; then
+if [[ -n ${var+x} && "$HOST_IP" == "$VPN_IP" ]]; then
   echo "HOST_IP == VPN_IP THIS SHOULD NOT HAPPEN!!!"
   docker stop $(hostname)
 fi
-
-(sleep 3 && /cronjob) &

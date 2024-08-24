@@ -34,6 +34,6 @@ write_var() {
 }
 
 get_ip () {
-  echo $(curl -s --connect-timeout 3 http://ipinfo.io/ip)
+  echo $(curl -s --connect-timeout 5 http://ipinfo.io/ip)
   return 0
 }
