@@ -7,7 +7,7 @@ RUN apk add curl docker nano && \
   mkdir -p /dev/net && \
   mknod /dev/net/tun c 10 200 && \
   echo "* * * * * /cronjob" >> /etc/crontabs/root && \
-  curl -fsSL https://raw.githubusercontent.com/AdguardTeam/AdGuardVPNCLI/master/scripts/release/install.sh | sed 's/read -r response < \/dev\/tty/response=y/' | sh -s -- -v 
+  curl -fsSL https://raw.githubusercontent.com/AdguardTeam/AdGuardVPNCLI/HEAD/scripts/release/install.sh | sed 's/read -r response < \/dev\/tty/response=y/' | sh -s -- -v 
 
 COPY cronjob /
 COPY functions.sh /

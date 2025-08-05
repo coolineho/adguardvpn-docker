@@ -4,7 +4,7 @@ source /functions.sh
 
 if [[ "$(read_var CREATED $VAR_STORE)" != "yes" ]]; then
   write_var "CREATED" "yes"
-  adguardvpn-cli config set-no-routes off
+  #adguardvpn-cli config set-no-routes off
   adguardvpn-cli config set-system-dns off
   if [[ -v ADGUARD_SEND_REPORTS ]]; then
     adguardvpn-cli config send-reports "$ADGUARD_SEND_REPORTS"
@@ -30,9 +30,9 @@ HOST_IP=$(get_ip)
 write_var "HOST_IP" "$HOST_IP"
 
 if [[ -v ADGUARD_LOCATION ]]; then
-  adguardvpn-cli connect -l "$ADGUARD_LOCATION" &
+  adguardvpn-cli connect -y -l "$ADGUARD_LOCATION" &
 else
-  adguardvpn-cli connect -f &
+  adguardvpn-cli connect -y -f &
 fi
 
 sleep 5
