@@ -1,5 +1,5 @@
 # adguardvpn-docker
-[AdguardTeam/AdGuardVPNCLI](https://github.com/AdguardTeam/AdGuardVPNCLI) for Linux in a docker image including the torrent client transmission-daemon and a killswitch.
+[AdguardTeam/AdGuardVPNCLI](https://github.com/AdguardTeam/AdGuardVPNCLI) for Linux in a docker image including the torrent client transmission-daemon and a killswitch. This fork is modified to be used with CasaOS.
 
 ## Objective
 Route all data traffic of an application, in this case [Transmission](https://transmissionbt.com/), through a VPN, while leaving the host's network settings untouched.
