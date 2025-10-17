@@ -1,21 +1,29 @@
-name: adguard-vpn
+version: '3.8'
+
 services:
-    adguard-vpn:
-        build: .
-        ports:
-            - 9091:9091
-            - 51413:51413
-        container_name: adguard-vpn
-        privileged: true
-        env_file:
-            - .env
-        volumes:
-            - transmission_config:/config
-            - /var/run/docker.sock:/var/run/docker.sock
-            - type: bind
-              source: '${DOWNLOADS_PATH}'
-              target: '/downloads'
-        image: adguard-vpn
-        restart: unless-stopped
+  adguard-vpn:
+    image: adguard-vpn
+    build: .
+    container_name: adguard-vpn
+    privileged: true
+    env_file:
+      - .env
+    environment:
+      PUID: 1000
+      PGID: 1000
+    ports:
+      - "9091:9091"
+      - "51413:51413"
+    volumes:
+      - transmission_config:/config
+      - /var/run/docker.sock:/var/run/docker.sock
+      - type: bind
+        source: "${DOWNLOADS_PATH}"
+        target: "/downloads"
+    restart: unless-stopped
+    labels:
+      casaos.template-version: "1.0"
+      casaos.app-id: "adguard-vpn"
+
 volumes:
-    transmission_config:
+  transmission_config:
